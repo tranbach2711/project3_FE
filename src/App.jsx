@@ -25,7 +25,7 @@ const App = () => {
       console.log("Response từ API:", response.data);
 
       if (response.data) {
-        setResponseData(response.data);
+        sessionStorage.setItem("userSession", JSON.stringify(response.data));
 
         notification.success({
           message: "Đăng nhập thành công",
