@@ -24,12 +24,12 @@ const App = () => {
 
       console.log("Response từ API:", response.data);
 
-      if (response.data.userName=="nguyenvana" ) {
+      if (response.data) {
         setResponseData(response.data); // Lưu kết quả API vào state
 
         notification.success({
           message: "Đăng nhập thành công",
-          description: `Chào mừng, ${response.data.user}`,
+          description: `Chào mừng, ${response.data.userName}`,
         });
 
         // Điều hướng đến trang Home
