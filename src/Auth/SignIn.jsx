@@ -1,14 +1,14 @@
 import { Button, Form, Input, notification } from "antd";
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-const App = () => {
+const SignIn = () => {
   const [form] = Form.useForm();
   const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState(""); 
-
   const [errorMessage, setErrorMessage] = useState(null);
 
   const navigate = useNavigate();
@@ -22,8 +22,6 @@ const App = () => {
         password: password,
       });
 
-      console.log("Response từ API:", response.data);
-
       if (response.data) {
         sessionStorage.setItem("userSession", JSON.stringify(response.data));
 
@@ -33,9 +31,8 @@ const App = () => {
         });
 
 
-        navigate("/home");
+        navigate("/");
       } else {
-
         setErrorMessage("Tên đăng nhập hoặc mật khẩu không chính xác!");
       }
     } catch (error) {
@@ -90,11 +87,19 @@ const App = () => {
             Đăng nhập
           </Button>
         </Form.Item>
-      </Form>
 
+        <Form.Item>
+          <div className="text-center mt-4">
+            <span className="text-sm text-gray-500">Bạn chưa có tài khoản? </span>
+            <Link to="/auth/signup" className="text-sm text-blue-500 hover:text-blue-700">
+              Đăng ký ngay
+            </Link>
+          </div>
+        </Form.Item>
+      </Form>
 
     </div>
   );
 };
 
-export default App;
+export default SignIn;
