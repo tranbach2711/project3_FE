@@ -18,10 +18,10 @@ const SignIn = () => {
     try {
 
       const response = await axios.post("http://localhost:5169/api/User/Login", {
-        user: username,
-        password: password,
+        User: username,
+        Password: password,
       });
-
+      console.log(response.data)
       if (response.data) {
         sessionStorage.setItem("userSession", JSON.stringify(response.data));
 
