@@ -2,6 +2,7 @@
 import React from "react";
 import Ngo from "../components/Ngo";  // Đổi từ ProductCarousel thành Ngo
 import '../index.css';
+import Team from '../components/Team';
 
 const Home = () => {
     const products = [
@@ -82,6 +83,7 @@ const Home = () => {
     return (
         <div>
             <Ngo products={products} />
+            <Team/>
         </div>
     );
 };
