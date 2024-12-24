@@ -1,29 +1,80 @@
 import React from "react";
 import '../index.css';
+import { FaCalendarDay,FaHandPaper } from 'react-icons/fa'; 
 
 const Footer = () => {
+    const people = [
+        {
+          name: 'Leslie Alexander',
+          role: 'Co-Founder / CEO',
+          imageUrl:
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+        // More people...
+    ]
     return (
-        <footer className="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
-            <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-                <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                    © 2023 <a href="https://flowbite.com/" className="hover:underline">Flowbite™</a>. All Rights Reserved.
-                </span>
-                <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-                    <li>
-                        <a href="#" className="hover:underline me-4 md:me-6">About</a>
-                    </li>
-                    <li>
-                        <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
-                    </li>
-                    <li>
-                        <a href="#" className="hover:underline">Contact</a>
-                    </li>
-                </ul>
+        <div className="relative isolate overflow-hidden bg-gray-900 py-16 sm:py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+            <div className="max-w-xl lg:max-w-lg">
+              <h2 className="text-4xl font-semibold tracking-tight text-white">Subscribe to our newsletter</h2>
+              <p className="mt-4 text-lg text-gray-300">
+                Nostrud amet eu ullamco nisi aute in ad minim nostrud adipisicing velit quis. Duis tempor incididunt
+                dolore.
+              </p>
+              <div className="mt-6 flex max-w-md gap-x-4">
+                <label htmlFor="email-address" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Enter your email"
+                  autoComplete="email"
+                  className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                />
+                <button
+                  type="submit"
+                  className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                >
+                  Subscribe
+                </button>
+              </div>
             </div>
-        </footer>
+            <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
+              <div className="flex flex-col items-start">
+                <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+                    <FaCalendarDay aria-hidden="true" className="size-6 text-white" /> {/* Correct usage */}
+                </div>
+                <dt className="mt-4 text-base font-semibold text-white">Weekly articles</dt>
+                <dd className="mt-2 text-base/7 text-gray-400">
+                  Non laboris consequat cupidatat laborum magna. Eiusmod non irure cupidatat duis commodo amet.
+                </dd>
+              </div>
+              <div className="flex flex-col items-start">
+                <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+                  <FaHandPaper aria-hidden="true" className="size-6 text-white" />
+                </div>
+                <dt className="mt-4 text-base font-semibold text-white">No spam</dt>
+                <dd className="mt-2 text-base/7 text-gray-400">
+                  Officia excepteur ullamco ut sint duis proident non adipisicing. Voluptate incididunt anim.
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+        <div aria-hidden="true" className="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6">
+          <div
+            style={{
+              clipPath:
+                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+            }}
+            className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
+          />
+        </div>
+      </div>
     )
 }
 
