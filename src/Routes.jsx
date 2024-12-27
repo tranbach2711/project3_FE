@@ -7,6 +7,10 @@ import Home from './mainLayout/Home';
 import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
 import Auth from './Auth/Auth';
+import AdminLayout from './admin/AdminLayout';
+import AdminDashboard from './admin/AdminDashboard';
+import AdminProgram from './admin/AdminProgram';
+import AdminNgo from './admin/AdminNgo';
 // import AdminLayout from './layouts/AdminLayout';
 // import ProductPage from './pages/ProductPage';
 // import CartPage from './pages/CartPage';
@@ -26,15 +30,15 @@ const routes = createBrowserRouter([
             //   { path: 'cart', element: <CartPage /> },
         ],
     },
-    //   {
-    //     path: '/admin',
-    //     element: <AdminLayout />,
-    //     children: [
-    //       { path: '', element: <AdminDashboard /> },
-    //       { path: 'products', element: <AdminProducts /> },
-    //       { path: 'orders', element: <AdminOrders /> },
-    //     ],
-    //   },
+    {
+        path: '/admin',
+        element: <AdminLayout />,
+        children: [
+          { path: '', element: <AdminDashboard /> },
+          { path: 'program', element: <AdminProgram/> },
+          { path: 'ngo', element: <AdminNgo /> },
+        ],
+    },
     //   { path: '*', element: <NotFoundPage /> }, // Trang 404
     {
         path: '/auth',

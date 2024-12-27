@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import {
     Dialog,
     DialogPanel,
@@ -13,30 +13,38 @@ import {
     PopoverPanel,
 } from '@headlessui/react'
 import {
-    ArrowPathIcon,
     Bars3Icon,
-    ChartPieIcon,
-    CursorArrowRaysIcon,
-    FingerPrintIcon,
-    SquaresPlusIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon} from '@heroicons/react/20/solid'
+import axios from 'axios';
 
-const products = [
-    { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-    { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-]
-const callsToAction = [
-    { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-    { name: 'Contact sales', href: '#', icon: PhoneIcon },
-]
 
 export default function Example() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [programs, setPrograms] = useState([]);
+
+    const fetchPrograms = async () => {
+        try {
+            const response = await axios.get("http://localhost:5169/GetProgram");
+            console.log(response.data);
+            setPrograms(response.data);
+        } catch (error) {
+            console.error("Error fetching programs:", error);
+        }
+    };
+
+    useEffect(() => {
+        // Lắng nghe trạng thái mobileMenuOpen thay đổi và chỉ gọi API khi menu mở
+        if (mobileMenuOpen) {
+            fetchPrograms();
+        }
+    }, [mobileMenuOpen]);
+
+    const toggleDropdown = () => {
+        setMobileMenuOpen((prev) => !prev);
+    };
+
 
     return (
         <header className="bg-white">
@@ -63,7 +71,7 @@ export default function Example() {
                 </div>
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
                     <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
+                        <PopoverButton   onClick={toggleDropdown} className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                             Product
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                         </PopoverButton>
@@ -73,36 +81,28 @@ export default function Example() {
                             className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                         >
                             <div className="p-4">
-                                {products.map((item) => (
-                                    <div
-                                        key={item.name}
-                                        className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                                    >
-                                        <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                            <item.icon aria-hidden="true" className="size-6 text-gray-600 group-hover:text-indigo-600" />
+                            {programs.length > 0 ? (
+                                    programs.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
+                                        >
+                                            <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                            </div>
+                                            <div className="flex-auto">
+                                                <a href="#" className="block font-semibold text-gray-900">
+                                                    {item.programName}
+                                                    <span className="absolute inset-0" />
+                                                </a>
+                                                <p className="mt-1 text-gray-600">{item.depcription}</p>
+                                            </div>
                                         </div>
-                                        <div className="flex-auto">
-                                            <a href={item.href} className="block font-semibold text-gray-900">
-                                                {item.name}
-                                                <span className="absolute inset-0" />
-                                            </a>
-                                            <p className="mt-1 text-gray-600">{item.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))
+                                ) : (
+                                    <p>Loading...</p>  
+                                )}
                             </div>
-                            <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                                {callsToAction.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
-                                    >
-                                        <item.icon aria-hidden="true" className="size-5 flex-none text-gray-400" />
-                                        {item.name}
-                                    </a>
-                                ))}
-                            </div>
+                            
                         </PopoverPanel>
                     </Popover>
 
@@ -151,18 +151,7 @@ export default function Example() {
                                         Product
                                         <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-[open]:rotate-180" />
                                     </DisclosureButton>
-                                    <DisclosurePanel className="mt-2 space-y-2">
-                                        {[...products, ...callsToAction].map((item) => (
-                                            <DisclosureButton
-                                                key={item.name}
-                                                as="a"
-                                                href={item.href}
-                                                className="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                            >
-                                                {item.name}
-                                            </DisclosureButton>
-                                        ))}
-                                    </DisclosurePanel>
+                                  
                                 </Disclosure>
                                 <a
                                     href="#"

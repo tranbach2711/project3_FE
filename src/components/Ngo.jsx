@@ -29,9 +29,9 @@ const Ngo = ({ products, itemsPerPage = 4 }) => {
                         transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
                     }}
                 >
-                    {displayProducts.map((product) => (
+                    {displayProducts.map((product, index) => (
                         <div
-                            key={product.id}
+                            key={`${product.id}-${index}`}
                             className="w-1/4 px-2 flex-shrink-0"
                         >
                             <div className="group relative">
