@@ -3,87 +3,24 @@ import React from "react";
 import Ngo from "../components/Ngo";  // Đổi từ ProductCarousel thành Ngo
 import '../index.css';
 import Team from '../components/Team';
+import Program from "../components/Program";
 
 const Home = () => {
     const products = [
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 2,
-            name: 'Modern Jacket',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg',
-            imageAlt: "Front of men's Modern Jacket in blue.",
-            price: '$120',
-            color: 'Blue',
-        },
-        {
-            id: 3,
-            name: 'Casual Sneakers',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-03.jpg',
-            imageAlt: "Pair of casual sneakers in white.",
-            price: '$85',
-            color: 'White',
-        },
-        {
-            id: 4,
-            name: 'Wool Hat',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-04.jpg',
-            imageAlt: "Front of wool hat in grey.",
-            price: '$25',
-            color: 'Grey',
-        },
-        {
-            id: 5,
-            name: 'Denim Jeans',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of denim jeans in dark blue.",
-            price: '$50',
-            color: 'Dark Blue',
-        },
-        {
-            id: 6,
-            name: 'Leather Belt',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg',
-            imageAlt: "Front of leather belt in brown.",
-            price: '$45',
-            color: 'Brown',
-        },
-        {
-            id: 7,
-            name: 'Classic Watch',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-03.jpg',
-            imageAlt: "Classic watch with leather strap.",
-            price: '$150',
-            color: 'Black',
-        },
-        {
-            id: 8,
-            name: 'Sunglasses',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-04.jpg',
-            imageAlt: "Pair of sunglasses with black frames.",
-            price: '$60',
-            color: 'Black',
-        },
+        { id: 1, name: 'Product 1', color: 'Red', price: '$19.99', imageSrc: 'https://via.placeholder.com/200', imageAlt: 'Product 1 Image', href: '#' },
+        { id: 2, name: 'Product 2', color: 'Blue', price: '$29.99', imageSrc: 'https://via.placeholder.com/200', imageAlt: 'Product 2 Image', href: '#' },
+        { id: 3, name: 'Product 3', color: 'Green', price: '$39.99', imageSrc: 'https://via.placeholder.com/200', imageAlt: 'Product 3 Image', href: '#' },
+        { id: 4, name: 'Product 4', color: 'Yellow', price: '$49.99', imageSrc: 'https://via.placeholder.com/200', imageAlt: 'Product 4 Image', href: '#' },
+        { id: 5, name: 'Product 5', color: 'Purple', price: '$59.99', imageSrc: 'https://via.placeholder.com/200', imageAlt: 'Product 5 Image', href: '#' },
+        { id: 6, name: 'Product 6', color: 'Orange', price: '$69.99', imageSrc: 'https://via.placeholder.com/200', imageAlt: 'Product 6 Image', href: '#' },
+        // Add more products as needed
     ];
 
     return (
         <div>
-            <Ngo products={products} />
-            <Team/>
+            <Program />
+            <Ngo products={products} itemsPerPage={4} />
+            <Team />
         </div>
     );
 };

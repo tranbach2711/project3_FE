@@ -11,7 +11,13 @@ import AdminLayout from './admin/AdminLayout';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminProgram from './admin/AdminProgram';
 import AdminNgo from './admin/AdminNgo';
+<<<<<<< HEAD
 import Contact from './mainLayout/Contact';
+=======
+import ProgramDetail from './components/ProgramDetail';
+import Donate from './components/Donate';
+import UserDetail from './components/UserDetail';
+>>>>>>> 0621fca4ccc84d5921240754e9052081684d3aac
 // import AdminLayout from './layouts/AdminLayout';
 // import ProductPage from './pages/ProductPage';
 // import CartPage from './pages/CartPage';
@@ -27,6 +33,12 @@ const routes = createBrowserRouter([
         element: <MainLayout />,
         children: [
             { path: '', element: <Home /> },
+            { path: 'programs/:id', element: <ProgramDetail /> },
+            { path: 'donate/:programId', element: <Donate /> },
+            {
+                path: '/users/:id',
+                element: <UserDetail />,
+            },
             //   { path: 'products', element: <ProductPage /> },
             //   { path: 'cart', element: <CartPage /> },
         ],
@@ -35,9 +47,9 @@ const routes = createBrowserRouter([
         path: '/admin',
         element: <AdminLayout />,
         children: [
-          { path: '', element: <AdminDashboard /> },
-          { path: 'program', element: <AdminProgram/> },
-          { path: 'ngo', element: <AdminNgo /> },
+            { path: '', element: <AdminDashboard /> },
+            { path: 'program', element: <AdminProgram /> },
+            { path: 'ngo', element: <AdminNgo /> },
         ],
     },
     //   { path: '*', element: <NotFoundPage /> }, // Trang 404
@@ -50,6 +62,7 @@ const routes = createBrowserRouter([
         ],
     },
     {
+<<<<<<< HEAD
         path: '/Contact',
         element: <MainLayout />,
         children: [
@@ -59,6 +72,16 @@ const routes = createBrowserRouter([
         ],
     },
    
+=======
+        path: '/programs/:id',
+        element: <MainLayout />,
+        children: [
+            // { path: '', element: <SignIn /> },
+            // { path: 'signup', element: <SignUp /> },
+        ],
+    },
+
+>>>>>>> 0621fca4ccc84d5921240754e9052081684d3aac
 ]);
 
 export default routes;

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
     Dialog,
     DialogPanel,
@@ -16,7 +16,7 @@ import {
     Bars3Icon,
     XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon} from '@heroicons/react/20/solid'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import axios from 'axios';
 
 
@@ -45,12 +45,21 @@ export default function Example() {
         setMobileMenuOpen((prev) => !prev);
     };
 
+    const [isFocused, setIsFocused] = useState(false);
+    const [value, setValue] = useState("");
+
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => {
+        if (!value) {
+            setIsFocused(false);
+        }
+    }
 
     return (
-        <header className="bg-white">
+        <header className="bg-white sticky top-0 z-50">
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
-                    <a href="#" className="-m-1.5 p-1.5">
+                    <a href="/" className="-m-1.5 p-1.5">
                         <span className="sr-only">Your Company</span>
                         <img
                             alt=""
@@ -71,7 +80,7 @@ export default function Example() {
                 </div>
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
                     <Popover className="relative">
-                        <PopoverButton   onClick={toggleDropdown} className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
+                        <PopoverButton onClick={toggleDropdown} className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                             Product
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                         </PopoverButton>
@@ -81,7 +90,7 @@ export default function Example() {
                             className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                         >
                             <div className="p-4">
-                            {programs.length > 0 ? (
+                                {programs.length > 0 ? (
                                     programs.map((item) => (
                                         <div
                                             key={item.id}
@@ -99,10 +108,10 @@ export default function Example() {
                                         </div>
                                     ))
                                 ) : (
-                                    <p>Loading...</p>  
+                                    <p>Loading...</p>
                                 )}
                             </div>
-                            
+
                         </PopoverPanel>
                     </Popover>
 
@@ -115,9 +124,33 @@ export default function Example() {
                     <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         Company
                     </a>
+                    {/* search */}
+                    <div className="hidden lg:flex lg:flex-1 lg:justify-end hover:text-blue-900">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className={`bg-white h-10 px-5 pr-10 rounded-full text-sm border hover:border-black focus:outline-none transition-all duration-300 ease-in-out ${isFocused ? "w-64" : "w-12"
+                                    }`}
+                                placeholder="Search..."
+                                value={value}
+                                onChange={(e) => setValue(e.target.value)}
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => !value && setIsFocused(false)}
+                            />
+                            <button type="submit" className="absolute right-0 top-0 mt-3 mr-4">
+                                <svg
+                                    className="h-4 w-4 fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </PopoverGroup>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="/auth" className="text-sm/6 font-semibold text-gray-900">
+                    <a href="/auth" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         Log in <span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
@@ -151,7 +184,7 @@ export default function Example() {
                                         Product
                                         <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-[open]:rotate-180" />
                                     </DisclosureButton>
-                                  
+
                                 </Disclosure>
                                 <a
                                     href="#"

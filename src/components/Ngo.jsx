@@ -1,4 +1,3 @@
-// src/components/Ngo.js
 import { useState, useEffect } from "react";
 
 const Ngo = ({ products, itemsPerPage = 4 }) => {
@@ -10,35 +9,41 @@ const Ngo = ({ products, itemsPerPage = 4 }) => {
         setDisplayProducts([...products, ...products]); // Nối sản phẩm để tạo hiệu ứng vô tận
     }, [products]);
 
+    // Tính toán số trang
+    const totalPages = Math.ceil(displayProducts.length / itemsPerPage);
+
+    // Cập nhật sản phẩm hiển thị dựa trên currentIndex
+    const productsToDisplay = displayProducts.slice(
+        currentIndex * itemsPerPage,
+        (currentIndex + 1) * itemsPerPage
+    );
+
     // Tự động cuộn mỗi 2 giây
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % (displayProducts.length - itemsPerPage + 1));
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % totalPages);
         }, 2000); // Mỗi 2 giây chuyển sản phẩm
 
         return () => clearInterval(interval);
-    }, [displayProducts, itemsPerPage]);
+    }, [totalPages]);
 
     return (
-        <div className="mt-6">
-            {/* Container với padding và full-width trên mobile */}
-            <div className="overflow-hidden relative w-full px-4 sm:px-[2cm]">
-                <div
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{
-                        transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
-                    }}
-                >
-                    {displayProducts.map((product, index) => (
-                        <div
-                            key={`${product.id}-${index}`}
-                            className="w-1/4 px-2 flex-shrink-0"
-                        >
-                            <div className="group relative">
+        <div className="bg-white">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+                    {/* Centered "NGO" text */}
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 text-center">
+                        NGO
+                    </h2>
+
+                    {/* Products grid */}
+                    <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                        {productsToDisplay.map((product) => (
+                            <div key={product.id} className="group relative">
                                 <img
                                     alt={product.imageAlt}
                                     src={product.imageSrc}
-                                    className="w-full h-full object-cover rounded-md bg-gray-200 group-hover:opacity-75"
+                                    className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
                                 />
                                 <div className="mt-4 flex justify-between">
                                     <div>
@@ -53,22 +58,23 @@ const Ngo = ({ products, itemsPerPage = 4 }) => {
                                     <p className="text-sm font-medium text-gray-900">{product.price}</p>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
+                    {/* Pagination Controls - Dots */}
+                    <div className="mt-6 flex justify-center space-x-2">
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setCurrentIndex(index)}
+                                className={`w-3 h-3 rounded-full ${currentIndex === index ? "bg-gray-900" : "bg-gray-300 hover:bg-gray-400"}`}
+                            ></button>
+                        ))}
+                    </div>
                 </div>
             </div>
-
-            {/* Pagination Controls - Dots */}
-            <div className="mt-4 flex justify-center space-x-2">
-                {[...Array(Math.ceil(displayProducts.length / itemsPerPage))].map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setCurrentIndex(index)}
-                        className={`w-3 h-3 rounded-full bg-gray-300 ${currentIndex === index ? "bg-gray-900" : "hover:bg-gray-400"}`}
-                    ></button>
-                ))}
-            </div>
         </div>
+
     );
 };
 
