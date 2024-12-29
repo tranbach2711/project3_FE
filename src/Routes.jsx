@@ -11,6 +11,7 @@ import AdminLayout from './admin/AdminLayout';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminProgram from './admin/AdminProgram';
 import AdminNgo from './admin/AdminNgo';
+import Contact from './mainLayout/Contact';
 // import AdminLayout from './layouts/AdminLayout';
 // import ProductPage from './pages/ProductPage';
 // import CartPage from './pages/CartPage';
@@ -46,6 +47,15 @@ const routes = createBrowserRouter([
         children: [
             { path: '', element: <SignIn /> },
             { path: 'signup', element: <SignUp /> },
+        ],
+    },
+    {
+        path: '/Contact',
+        element: <MainLayout />,
+        children: [
+            { path: '', element: <Contact/> },
+            //   { path: 'products', element: <ProductPage /> },
+            //   { path: 'cart', element: <CartPage /> },
         ],
     },
    
