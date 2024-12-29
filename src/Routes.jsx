@@ -11,6 +11,9 @@ import AdminLayout from './admin/AdminLayout';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminProgram from './admin/AdminProgram';
 import AdminNgo from './admin/AdminNgo';
+import ProgramDetail from './components/ProgramDetail';
+import Donate from './components/Donate';
+import UserDetail from './components/UserDetail';
 // import AdminLayout from './layouts/AdminLayout';
 // import ProductPage from './pages/ProductPage';
 // import CartPage from './pages/CartPage';
@@ -26,6 +29,12 @@ const routes = createBrowserRouter([
         element: <MainLayout />,
         children: [
             { path: '', element: <Home /> },
+            { path: 'programs/:id', element: <ProgramDetail /> },
+            { path: 'donate/:programId', element: <Donate /> },
+            {
+                path: '/users/:id',
+                element: <UserDetail />,
+            },
             //   { path: 'products', element: <ProductPage /> },
             //   { path: 'cart', element: <CartPage /> },
         ],
@@ -34,9 +43,9 @@ const routes = createBrowserRouter([
         path: '/admin',
         element: <AdminLayout />,
         children: [
-          { path: '', element: <AdminDashboard /> },
-          { path: 'program', element: <AdminProgram/> },
-          { path: 'ngo', element: <AdminNgo /> },
+            { path: '', element: <AdminDashboard /> },
+            { path: 'program', element: <AdminProgram /> },
+            { path: 'ngo', element: <AdminNgo /> },
         ],
     },
     //   { path: '*', element: <NotFoundPage /> }, // Trang 404
@@ -48,7 +57,15 @@ const routes = createBrowserRouter([
             { path: 'signup', element: <SignUp /> },
         ],
     },
-   
+    {
+        path: '/programs/:id',
+        element: <MainLayout />,
+        children: [
+            // { path: '', element: <SignIn /> },
+            // { path: 'signup', element: <SignUp /> },
+        ],
+    },
+
 ]);
 
 export default routes;
