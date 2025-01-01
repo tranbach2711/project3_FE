@@ -11,13 +11,13 @@ import AdminLayout from './admin/AdminLayout';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminProgram from './admin/AdminProgram';
 import AdminNgo from './admin/AdminNgo';
-<<<<<<< HEAD
+
 import Contact from './mainLayout/Contact';
-=======
+
 import ProgramDetail from './components/ProgramDetail';
 import Donate from './components/Donate';
 import UserDetail from './components/UserDetail';
->>>>>>> 0621fca4ccc84d5921240754e9052081684d3aac
+
 // import AdminLayout from './layouts/AdminLayout';
 // import ProductPage from './pages/ProductPage';
 // import CartPage from './pages/CartPage';
@@ -62,17 +62,17 @@ const routes = createBrowserRouter([
         ],
     },
     {
-<<<<<<< HEAD
+
         path: '/Contact',
         element: <MainLayout />,
         children: [
-            { path: '', element: <Contact/> },
+            { path: '', element: <Contact /> },
             //   { path: 'products', element: <ProductPage /> },
             //   { path: 'cart', element: <CartPage /> },
         ],
     },
-   
-=======
+
+    {
         path: '/programs/:id',
         element: <MainLayout />,
         children: [
@@ -81,7 +81,7 @@ const routes = createBrowserRouter([
         ],
     },
 
->>>>>>> 0621fca4ccc84d5921240754e9052081684d3aac
+
 ]);
 
 export default routes;

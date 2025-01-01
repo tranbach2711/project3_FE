@@ -30,6 +30,10 @@ const mockUserData = [
 ];
 
 const UserDetail = () => {
+    // Lấy giá trị từ session storage
+    const value = sessionStorage.getItem('userSession');
+    console.log(value); // "value"
+
     const { id } = useParams(); // Lấy ID người dùng từ URL
     const navigate = useNavigate(); // Dùng để chuyển hướng trang
 
