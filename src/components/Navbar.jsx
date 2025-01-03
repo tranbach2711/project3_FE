@@ -23,6 +23,8 @@ import axios from 'axios';
 export default function Example() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [programs, setPrograms] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login
+    const [userAvatar, setUserAvatar] = useState('https://via.placeholder.com/40');
 
     const fetchPrograms = async () => {
         try {
@@ -55,6 +57,12 @@ export default function Example() {
         }
     }
 
+    const handleLogin = () => {
+        setIsLoggedIn(true);
+        // Example: Set the avatar after successful login
+        setUserAvatar('https://via.placeholder.com/40?text=User');
+    };
+
     return (
         <header className="bg-white sticky top-0 z-50">
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
@@ -63,7 +71,7 @@ export default function Example() {
                         <span className="sr-only">Your Company</span>
                         <img
                             alt=""
-                            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                            src="public/images/logo/logo.png"
                             className="h-8 w-auto"
                         />
                     </a>
@@ -81,7 +89,7 @@ export default function Example() {
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
                     <Popover className="relative">
                         <PopoverButton onClick={toggleDropdown} className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                            Product
+                            Programs
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                         </PopoverButton>
 
@@ -116,13 +124,13 @@ export default function Example() {
                     </Popover>
 
                     <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Features
+                        Contact Us
                     </a>
                     <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Marketplace
+                        About Us
                     </a>
                     <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Company
+                        Donate
                     </a>
                     {/* search */}
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end hover:text-blue-900">
@@ -149,10 +157,26 @@ export default function Example() {
                         </div>
                     </div>
                 </PopoverGroup>
+                {/* login */}
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="/auth" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Log in <span aria-hidden="true">&rarr;</span>
-                    </a>
+                    {isLoggedIn ? (
+                        <div className="relative">
+                            <img
+                                src={userAvatar}
+                                alt="User Avatar"
+                                className="h-10 w-10 rounded-full cursor-pointer"
+                            />
+                            {/* Optionally, you can add a dropdown menu when clicking the avatar */}
+                        </div>
+                    ) : (
+                        <a
+                            href="/auth"
+                            onClick={handleLogin} // Simulating login on click
+                            className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900"
+                        >
+                            Log in <span aria-hidden="true">&rarr;</span>
+                        </a>
+                    )}
                 </div>
             </nav>
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">

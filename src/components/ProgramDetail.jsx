@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
-// Dữ liệu giả để test giao diện
+// Mock data for testing UI
 const mockProgram = {
     id: 1,
     program_name: 'Program for Clean Water',
-    description: 'This program focuses on providing clean and safe drinking water to underserved communities. We aim to install water filtration systems in remote villages to improve health and quality of life.',
+    description:
+        'This program focuses on providing clean and safe drinking water to underserved communities. We aim to install water filtration systems in remote villages to improve health and quality of life.',
     img: 'https://via.placeholder.com/800x400.png?text=Program+Image',
     ngo_id: 101,
     create_time: '2023-01-15T12:00:00Z',
@@ -13,13 +14,14 @@ const mockProgram = {
 };
 
 const ProgramDetail = () => {
-    const { id } = useParams(); // Lấy ID từ URL
+    const { id } = useParams(); // Get program ID from URL
+    const navigate = useNavigate(); // Initialize navigate function
     const [program, setProgram] = useState(null);
 
     useEffect(() => {
-        // Giả lập việc fetch dữ liệu từ API
+        // Simulate fetching data from an API
         const fetchProgramDetail = () => {
-            // Tạm thời dùng dữ liệu giả
+            // Temporary mock data
             setProgram(mockProgram);
         };
 
@@ -62,6 +64,16 @@ const ProgramDetail = () => {
                     <div className="mt-6">
                         <h2 className="text-xl font-semibold text-gray-900">NGO Info</h2>
                         <p className="mt-2 text-gray-600">NGO ID: {program.ngo_id}</p>
+                    </div>
+
+                    {/* Donate Button */}
+                    <div className="mt-6">
+                        <button
+                            onClick={() => navigate(`/donate/${program.id}`)} // Navigate to Donate route
+                            className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+                        >
+                            Donate
+                        </button>
                     </div>
                 </div>
             </div>
