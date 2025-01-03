@@ -2,37 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 // Dữ liệu giả
-const mockUserData = [
-    {
-        id: 1,
-        full_name: 'John Doe',
-        user_name: 'johndoe',
-        email: 'johndoe@example.com',
-        role: 'admin',
-        status: 'active',
-    },
-    {
-        id: 2,
-        full_name: 'Jane Smith',
-        user_name: 'janesmith',
-        email: 'janesmith@example.com',
-        role: 'user',
-        status: 'inactive',
-    },
-    {
-        id: 3,
-        full_name: 'Alice Johnson',
-        user_name: 'alicejohnson',
-        email: 'alicej@example.com',
-        role: 'user',
-        status: 'active',
-    },
-];
+// const mockUserData = [
+//     {
+//         id: 1,
+//         full_name: 'John Doe',
+//         user_name: 'johndoe',
+//         email: 'johndoe@example.com',
+//         role: 'admin',
+//         status: 'active',
+//     },
+ 
+// ];
 
 const UserDetail = () => {
     // Lấy giá trị từ session storage
-    const value = sessionStorage.getItem('userSession');
-    console.log(value); // "value"
+    const mockUserData = [sessionStorage.getItem('userSession')];
+   
 
     const { id } = useParams(); // Lấy ID người dùng từ URL
     const navigate = useNavigate(); // Dùng để chuyển hướng trang
@@ -49,15 +34,19 @@ const UserDetail = () => {
 
     // Lấy dữ liệu giả từ mockUserData theo id
     useEffect(() => {
-        const userData = mockUserData.find((user) => user.id === parseInt(id));
-        if (userData) {
-            setUser(userData);
+        const userData = mockUserData.find((user) => JSON.parse(user).id === parseInt(id) );
+        const parseuseData = JSON.parse(userData);
+        console.log(parseuseData)
+        
+
+        if (parseuseData) {
+            setUser(parseuseData);
             setFormData({
-                fullName: userData.full_name,
-                userName: userData.user_name,
-                email: userData.email,
-                role: userData.role,
-                status: userData.status,
+                fullName: parseuseData.fullName,
+                userName: parseuseData.userName,
+                email: parseuseData.email,
+                role: parseuseData.role,
+                status: parseuseData.status,
             });
         }
     }, [id]);
@@ -181,8 +170,8 @@ const UserDetail = () => {
                     </form>
                 ) : (
                     <div>
-                        <p><strong>Full Name:</strong> {user.full_name}</p>
-                        <p><strong>Username:</strong> {user.user_name}</p>
+                        <p><strong>Full Name:</strong> {user.fullName}</p>
+                        <p><strong>Username:</strong> {user.userName}</p>
                         <p><strong>Email:</strong> {user.email}</p>
                         <p><strong>Role:</strong> {user.role}</p>
                         <p><strong>Status:</strong> {user.status}</p>

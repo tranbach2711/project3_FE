@@ -12,7 +12,7 @@ const AdminProgram = () => {
 
   const mapLocalPathToUrl = (localPath) => {
     const fileName = localPath.split("\\").pop();
-    return `http://localhost:5174/images/${fileName}`;
+    return `http://localhost:5173/images/${fileName}`;
   };
 
   const fetchPrograms = async () => {
@@ -245,7 +245,7 @@ const AdminProgram = () => {
           <Form.Item label="Ảnh đã chọn">
             {imgFileName && (
               <img
-                src={`http://localhost:5174/images/${imgFileName}`}
+                src={`http://localhost:5173/images/${imgFileName}`}
                 alt="Preview"
                 style={{ width: 100, height: 100, objectFit: "cover", marginTop: 10 }}
               />

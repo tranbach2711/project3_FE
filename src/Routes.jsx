@@ -17,6 +17,9 @@ import Contact from './mainLayout/Contact';
 import ProgramDetail from './components/ProgramDetail';
 import Donate from './components/Donate';
 import UserDetail from './components/UserDetail';
+import AdminCause from './admin/AdminCause';
+import AdminUser from './admin/AdminUser';
+import AdminDonate from './admin/AdminDonate';
 
 // import AdminLayout from './layouts/AdminLayout';
 // import ProductPage from './pages/ProductPage';
@@ -50,6 +53,9 @@ const routes = createBrowserRouter([
             { path: '', element: <AdminDashboard /> },
             { path: 'program', element: <AdminProgram /> },
             { path: 'ngo', element: <AdminNgo /> },
+            { path: 'cause', element: <AdminCause /> },
+            { path: 'user', element: <AdminUser /> },
+            { path: 'donate', element: <AdminDonate /> },
         ],
     },
     //   { path: '*', element: <NotFoundPage /> }, // Trang 404

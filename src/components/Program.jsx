@@ -1,55 +1,26 @@
-import { useState } from 'react';
-
-const callouts = [
-    {
-        name: 'Desk and Office',
-        description: 'Work from home accessories',
-        imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/home-page-02-edition-01.jpg',
-        imageAlt: 'Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.',
-        href: '#',
-    },
-    {
-        name: 'Self-Improvement',
-        description: 'Journals and note-taking',
-        imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/home-page-02-edition-02.jpg',
-        imageAlt: 'Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.',
-        href: '#',
-    },
-    {
-        name: 'Travel',
-        description: 'Daily commute essentials',
-        imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/home-page-02-edition-03.jpg',
-        imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-        href: '#',
-    },
-    {
-        name: 'Self-Improvement',
-        description: 'Journals and note-taking',
-        imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/home-page-02-edition-02.jpg',
-        imageAlt: 'Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.',
-        href: '#',
-    },
-    {
-        name: 'Travel',
-        description: 'Daily commute essentials',
-        imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/home-page-02-edition-03.jpg',
-        imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-        href: '#',
-    },
-    {
-        name: 'Desk and Office',
-        description: 'Work from home accessories',
-        imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/home-page-02-edition-01.jpg',
-        imageAlt: 'Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.',
-        href: '#',
-    },
-]
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Example() {
-    const itemsPerPage = 3;
+    const [programs, setPrograms] = useState([]); // State for fetched data
     const [currentIndex, setCurrentIndex] = useState(0);
+    const itemsPerPage = 3;
 
-    const totalPages = Math.ceil(callouts.length / itemsPerPage);
+    useEffect(() => {
+        // Fetch data from the API
+        const fetchPrograms = async () => {
+            try {
+                const response = await axios.get('http://localhost:5169/GetProgram');
+                setPrograms(response.data); // Set fetched data to state
+            } catch (error) {
+                console.error('Error fetching programs:', error);
+            }
+        };
+
+        fetchPrograms();
+    }, []);
+
+    const totalPages = Math.ceil(programs.length / itemsPerPage);
 
     // Handle moving to the previous page
     const goToPreviousPage = () => {
@@ -61,8 +32,11 @@ export default function Example() {
         setCurrentIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
     };
 
-    // Get the products for the current page
-    const displayedCallouts = callouts.slice(currentIndex * itemsPerPage, (currentIndex + 1) * itemsPerPage);
+    // Get the programs for the current page
+    const displayedPrograms = programs.slice(
+        currentIndex * itemsPerPage,
+        (currentIndex + 1) * itemsPerPage
+    );
 
     return (
         <div className="bg-gray-100">
@@ -75,20 +49,20 @@ export default function Example() {
                     </div>
 
                     <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-                        {displayedCallouts.map((callout) => (
-                            <div key={callout.name} className="group relative">
+                        {displayedPrograms.map((program) => (
+                            <div key={program.id} className="group relative">
                                 <img
-                                    alt={callout.imageAlt}
-                                    src={callout.imageSrc}
+                                    alt={program.depcription}
+                                    src={`http://localhost:5173/images/${program.img}`} // Assuming `img` is a filename
                                     className="w-full rounded-lg bg-white object-cover group-hover:opacity-75 max-sm:h-80 sm:aspect-[2/1] lg:aspect-square"
                                 />
                                 <h3 className="mt-6 text-sm text-gray-500">
-                                    <a href={callout.href}>
-                                        <span className="absolute inset-0" />
-                                        {callout.name}
-                                    </a>
+                                    <span className="absolute inset-0" />
+                                    {program.programName}
                                 </h3>
-                                <p className="text-base font-semibold text-gray-900">{callout.description}</p>
+                                <p className="text-base font-semibold text-gray-900">
+                                    {program.depcription}
+                                </p>
                             </div>
                         ))}
                     </div>
