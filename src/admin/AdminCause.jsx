@@ -82,7 +82,7 @@ const AdminCause = () => {
   // Define Table Columns
   const columns = [
     {
-      title: "ID",
+      title: "STT",
       dataIndex: "id",
       key: "id",
     },
@@ -112,14 +112,14 @@ const AdminCause = () => {
               });
             }}
           >
-            Edit
+            Sửa
           </Button>
           <Button
             danger
             onClick={() => handleDelete(record.id)}
             style={{ marginLeft: 10 }}
           >
-            Delete
+            Xóa
           </Button>
         </span>
       ),
@@ -128,7 +128,7 @@ const AdminCause = () => {
 
   return (
     <div>
-      <h2 className="text-center text-2xl font-bold mt-10 mb-5">Manage Causes</h2>
+      <h2 className="text-center text-2xl font-bold mt-10 mb-5">Quản lý Causes</h2>
       <Button
         type="primary"
         style={{ marginBottom: 20 }}
@@ -138,7 +138,7 @@ const AdminCause = () => {
           form.resetFields();
         }}
       >
-        Add Cause
+        Thêm
       </Button>
       <Table
         columns={columns}
@@ -146,7 +146,7 @@ const AdminCause = () => {
       />
 
       <Modal
-        title={editingCause ? "Edit Cause" : "Add Cause"}
+        title={editingCause ? "Sửa" : "Xóa"}
         visible={isModalVisible}
         onCancel={() => {
           setIsModalVisible(false);
