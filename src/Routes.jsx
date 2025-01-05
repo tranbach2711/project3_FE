@@ -11,9 +11,8 @@ import AdminLayout from './admin/AdminLayout';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminProgram from './admin/AdminProgram';
 import AdminNgo from './admin/AdminNgo';
-
-import Contact from './mainLayout/Contact';
-
+import Contact from './components/Contact';
+import About from './components/About';
 import ProgramDetail from './components/ProgramDetail';
 import Donate from './components/Donate';
 import UserDetail from './components/UserDetail';
@@ -68,7 +67,6 @@ const routes = createBrowserRouter([
         ],
     },
     {
-
         path: '/Contact',
         element: <MainLayout />,
         children: [
@@ -77,7 +75,15 @@ const routes = createBrowserRouter([
             //   { path: 'cart', element: <CartPage /> },
         ],
     },
-
+    {
+        path: '/About',
+        element: <MainLayout />,
+        children: [
+            { path: '', element: <About /> },
+            //   { path: 'products', element: <ProductPage /> },
+            //   { path: 'cart', element: <CartPage /> },
+        ],
+    },
     {
         path: '/programs/:id',
         element: <MainLayout />,

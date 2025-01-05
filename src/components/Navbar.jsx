@@ -62,7 +62,7 @@ export default function Example() {
     };
 
     return (
-        <header className="bg-white">
+        <header className="bg-white sticky top-0 z-50">
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
                     <a href="/" className="-m-1.5 p-1.5">
@@ -101,7 +101,7 @@ export default function Example() {
                                         <div
                                             key={item.id}
                                             className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                                            onClick={() => handleProgramClick(item.id)} 
+                                            onClick={() => handleProgramClick(item.id)}
                                         >
                                             <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                             </div>
@@ -120,11 +120,11 @@ export default function Example() {
                         </PopoverPanel>
                     </Popover>
 
-                    <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Features
+                    <a href="/Contact" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
+                        Contact Us
                     </a>
-                    <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Marketplace
+                    <a href="/About" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
+                        About Us
                     </a>
                     <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         Company
@@ -210,4 +210,6 @@ export default function Example() {
             </Dialog>
         </header>
     );
+     
+
 }
