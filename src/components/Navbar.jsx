@@ -1,6 +1,4 @@
-'use client'
-
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import {
     Dialog,
     DialogPanel,
@@ -10,20 +8,24 @@ import {
     PopoverButton,
     PopoverGroup,
     PopoverPanel,
-} from '@headlessui/react'
+} from '@headlessui/react';
 import {
     Bars3Icon,
     XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+} from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
+import { UserOutlined } from '@ant-design/icons';  // Icon người dùng từ @ant-design/icons
 
 export default function Example() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [programs, setPrograms] = useState([]);
     const navigate = useNavigate();
+
+    // Kiểm tra trạng thái đăng nhập (user session)
+    const userSession = sessionStorage.getItem('userSession');
+    const PuserSession = JSON.parse(userSession);
 
     const fetchPrograms = async () => {
         try {
@@ -33,15 +35,16 @@ export default function Example() {
             console.error("Error fetching programs:", error);
         }
     };
+
     const handleProgramClick = (id) => {
-        console.log('Clicked Program ID:', id);
-        navigate(`/programs/${id}`); // Điều hướng tới trang mới kèm id
-        setMobileMenuOpen(false); // Đóng menu khi chọn chương trình
+        
+        navigate(`/programs/${id}`);
+        setMobileMenuOpen(false);
     };
 
     useEffect(() => {
-        // Lắng nghe trạng thái mobileMenuOpen thay đổi và chỉ gọi API khi menu mở
         if (mobileMenuOpen) {
+            console.log(userSession);
             fetchPrograms();
         }
     }, [mobileMenuOpen]);
@@ -50,6 +53,13 @@ export default function Example() {
         setMobileMenuOpen((prev) => !prev);
     };
 
+    // Hàm để điều hướng đến trang thông tin người dùng
+    const navigateToUserDetail = () => {
+        // Chỉ gọi hàm điều hướng khi nhấn nút
+        if (PuserSession) {
+            navigate(`/users/${PuserSession.id}`);
+        }
+    };
 
     return (
         <header className="bg-white">
@@ -100,7 +110,6 @@ export default function Example() {
                                                     {item.programName}
                                                     <span className="absolute inset-0" />
                                                 </a>
-                                                <p className="mt-1 text-gray-600">{item.depcription}</p>
                                             </div>
                                         </div>
                                     ))
@@ -122,9 +131,20 @@ export default function Example() {
                     </a>
                 </PopoverGroup>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="/auth" className="text-sm/6 font-semibold text-gray-900">
-                        Log in <span aria-hidden="true">&rarr;</span>
-                    </a>
+                    {userSession ? (
+                        // Nếu người dùng đã đăng nhập, hiển thị icon người dùng
+                        <button
+                            onClick={navigateToUserDetail} // Sửa lại, gọi hàm xử lý sự kiện, không phải gọi hàm ngay
+                            className="text-sm/6 font-semibold text-gray-900 flex items-center"
+                        >
+                            <UserOutlined className="mr-2" /> {/* Icon người dùng */}
+                            User Profile
+                        </button>
+                    ) : (
+                        <a href="/auth" className="text-sm/6 font-semibold text-gray-900">
+                            Log in <span aria-hidden="true">&rarr;</span>
+                        </a>
+                    )}
                 </div>
             </nav>
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -156,7 +176,6 @@ export default function Example() {
                                         Product
                                         <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-[open]:rotate-180" />
                                     </DisclosureButton>
-
                                 </Disclosure>
                                 <a
                                     href="#"
@@ -190,5 +209,5 @@ export default function Example() {
                 </DialogPanel>
             </Dialog>
         </header>
-    )
+    );
 }

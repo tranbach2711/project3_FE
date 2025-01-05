@@ -23,21 +23,25 @@ const AdminUser = () => {
 
     // Handle Add or Update User
     const handleAddOrUpdate = async (values) => {
+        // Ánh xạ lại giá trị Role và Status
+        const mappedRole = values.role === "01" ? "01" : "00";  // 01 là Admin, 00 là User
+        const mappedStatus = values.status === "01" ? "01" : "00";  // 01 là Inactive, 00 là Active
+    
         const payload = {
             id: editingUser?.id || 0,
             fullName: values.fullName,
             userName: values.userName,
             email: values.email,
-            role: values.role,
-            status: values.status,
+            role: mappedRole, // Sử dụng giá trị đã ánh xạ
+            status: mappedStatus, // Sử dụng giá trị đã ánh xạ
             createTime: new Date().toISOString(),
             updateTime: new Date().toISOString(),
         };
-
+    
         if (values.password) {
             payload.password = values.password;
         }
-
+    
         try {
             if (editingUser) {
                 await axios.post("http://localhost:5169/api/User/UpdateUser", payload);
@@ -46,13 +50,14 @@ const AdminUser = () => {
                     description: "Người dùng đã được cập nhật.",
                 });
             } else {
-                await axios.post("http://localhost:5169/api/User/CreateUser", payload);
+                console.log(payload);
+                await axios.post("http://localhost:5169/api/User/CreateUserorAdmin", payload);
                 notification.success({
                     message: "Thành công",
                     description: "Người dùng mới đã được thêm.",
                 });
             }
-
+    
             setIsModalVisible(false);
             setEditingUser(null);
             form.resetFields();
@@ -113,11 +118,13 @@ const AdminUser = () => {
             title: "Role",
             dataIndex: "role",
             key: "role",
+            render: (role) => (role === "00" ? "User" : "Admin"), // Convert role ID to text
         },
         {
             title: "Status",
             dataIndex: "status",
             key: "status",
+            render: (status) => (status === "00" ? "Active" : "Inactive"), // Convert status ID to text
         },
         {
             title: "Action",
@@ -216,16 +223,29 @@ const AdminUser = () => {
                     <Form.Item
                         name="role"
                         label="Vai trò"
-                        rules={[{ required: true, message: "Vui lòng nhập vai trò" }]}
+                        rules={[{ required: true, message: "Vui lòng chọn vai trò" }]}
                     >
-                        <Input />
+                        <Select
+                            placeholder="Chọn vai trò"
+                            options={[
+                                { label: "User", value: "00" },
+                                { label: "Admin", value: "01" },
+                            ]}
+                        />
                     </Form.Item>
+
                     <Form.Item
                         name="status"
                         label="Trạng thái"
-                        rules={[{ required: true, message: "Vui lòng nhập trạng thái" }]}
+                        rules={[{ required: true, message: "Vui lòng chọn trạng thái" }]}
                     >
-                        <Input />
+                        <Select
+                            placeholder="Chọn trạng thái"
+                            options={[
+                                { label: "Active", value: "00" },
+                                { label: "Inactive", value: "01" },
+                            ]}
+                        />
                     </Form.Item>
                 </Form>
             </Modal>

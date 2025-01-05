@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
-// Dữ liệu giả
-// const mockUserData = [
-//     {
-//         id: 1,
-//         full_name: 'John Doe',
-//         user_name: 'johndoe',
-//         email: 'johndoe@example.com',
-//         role: 'admin',
-//         status: 'active',
-//     },
- 
-// ];
+import axios from 'axios';  // For API requests
 
 const UserDetail = () => {
     // Lấy giá trị từ session storage
     const mockUserData = [sessionStorage.getItem('userSession')];
-   
 
     const { id } = useParams(); // Lấy ID người dùng từ URL
     const navigate = useNavigate(); // Dùng để chuyển hướng trang
@@ -34,10 +21,8 @@ const UserDetail = () => {
 
     // Lấy dữ liệu giả từ mockUserData theo id
     useEffect(() => {
-        const userData = mockUserData.find((user) => JSON.parse(user).id === parseInt(id) );
+        const userData = mockUserData.find((user) => JSON.parse(user).id === parseInt(id));
         const parseuseData = JSON.parse(userData);
-        console.log(parseuseData)
-        
 
         if (parseuseData) {
             setUser(parseuseData);
@@ -45,11 +30,19 @@ const UserDetail = () => {
                 fullName: parseuseData.fullName,
                 userName: parseuseData.userName,
                 email: parseuseData.email,
-                role: parseuseData.role,
-                status: parseuseData.status,
+                role: parseuseData.role === '00' ? 'User' : 'Admin', // Map role dynamically
+                status: parseuseData.status === '00' ? 'Active' : 'Inactive', // Map status dynamically
             });
         }
     }, [id]);
+
+    // Map role and status for display
+    const mapRole = (role) => (role === '00' ? 'User' : 'Admin');
+    const mapStatus = (status) => (status === '00' ? 'Active' : 'Inactive');
+
+    // Map role and status for update (convert back to '00' or '01')
+    
+    const mapStatusForUpdate = (status) => (status === 'Active' ? '00' : '01');
 
     // Handle input change for edit mode
     const handleInputChange = (e) => {
@@ -61,11 +54,32 @@ const UserDetail = () => {
     };
 
     // Handle form submission (Update user)
-    const handleUpdateUser = (e) => {
+    const handleUpdateUser = async (e) => {
         e.preventDefault();
-        setUser(formData);
-        setIsEditing(false);
-        alert('User updated successfully!');
+
+        const updatedUser = {
+            id: user.id,  // Keep the current ID
+            fullName: formData.fullName,
+            userName: formData.userName,
+            email: formData.email,
+            password: '0',  // Keep the existing password
+            role: user.role, 
+            status: mapStatusForUpdate(formData.status),
+            createTime: new Date().toISOString(),   // Keep the existing create time
+            updateTime: new Date().toISOString() // Set the current time as update time
+        };
+
+        try {
+            console.log(updatedUser);  // Kiểm tra payload yêu cầu
+
+            await axios.post('http://localhost:5169/api/User/UpdateUser', updatedUser);
+            setUser(updatedUser);
+            setIsEditing(false);
+            alert('User updated successfully!');
+        } catch (error) {
+            console.error('Error updating user:', error);
+            alert('Failed to update user');
+        }
     };
 
     // Handle delete user
@@ -84,8 +98,8 @@ const UserDetail = () => {
     }
 
     return (
-        <div className="container mx-auto p-6 bg-white shadow-md rounded-md">
-            <h2 className="text-2xl font-semibold text-gray-800">{isEditing ? 'Edit User' : 'User Details'}</h2>
+        <div className="container mx-auto p-6 bg-white shadow-md rounded-md max-w-3xl">
+            <h2 className="text-2xl font-semibold text-gray-800 text-center">{isEditing ? 'Edit User' : 'User Details'}</h2>
 
             {/* User Detail Section */}
             <div className="mt-6">
@@ -130,12 +144,13 @@ const UserDetail = () => {
                                 <label className="block text-sm font-medium text-gray-700">Role</label>
                                 <select
                                     name="role"
-                                    value={formData.role}
-                                    onChange={handleInputChange}
+                                    value={user.role === '00' ? 'User' : 'Admin'}
+                                    readOnly 
+                                    
                                     className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                 >
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
+                                    <option value="User">User</option>
+                                    <option value="Admin">Admin</option>
                                 </select>
                             </div>
                             <div className="w-full">
@@ -146,13 +161,13 @@ const UserDetail = () => {
                                     onChange={handleInputChange}
                                     className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                 >
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div className="mt-4 flex gap-4">
+                        <div className="mt-4 flex gap-4 justify-center">
                             <button
                                 type="submit"
                                 className="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
@@ -169,14 +184,14 @@ const UserDetail = () => {
                         </div>
                     </form>
                 ) : (
-                    <div>
+                    <div className="flex flex-col items-center justify-center ">
                         <p><strong>Full Name:</strong> {user.fullName}</p>
                         <p><strong>Username:</strong> {user.userName}</p>
                         <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Role:</strong> {user.role}</p>
-                        <p><strong>Status:</strong> {user.status}</p>
+                        <p><strong>Role:</strong> {mapRole(user.role)}</p>
+                        <p><strong>Status:</strong> {mapStatus(user.status)}</p>
 
-                        <div className="mt-4 flex gap-4">
+                        <div className="mt-4 flex gap-4 justify-center">
                             <button
                                 onClick={() => setIsEditing(true)}
                                 className="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"

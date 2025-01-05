@@ -62,9 +62,7 @@ export default function Example() {
                                     <span className="absolute inset-0" />
                                     {program.programName}
                                 </h3>
-                                <p className="text-base font-semibold text-gray-900">
-                                    {program.depcription}
-                                </p>
+                                
                             </div>
                         ))}
                     </div>
