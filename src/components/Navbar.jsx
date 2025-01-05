@@ -114,8 +114,8 @@ export default function Example() {
                     <a href="/Contact" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         Contact Us
                     </a>
-                    <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Marketplace
+                    <a href="/About" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
+                        About Us
                     </a>
                     <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         Company
