@@ -1,35 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
-// Mock data for testing UI
-const mockProgram = {
-    id: 1,
-    program_name: 'Program for Clean Water',
-    description:
-        'This program focuses on providing clean and safe drinking water to underserved communities. We aim to install water filtration systems in remote villages to improve health and quality of life.',
-    img: 'https://via.placeholder.com/800x400.png?text=Program+Image',
-    ngo_id: 101,
-    create_time: '2023-01-15T12:00:00Z',
-    update_time: '2023-01-16T12:00:00Z',
-};
+import axios from 'axios';
 
 const ProgramDetail = () => {
-    const { id } = useParams(); // Get program ID from URL
-    const navigate = useNavigate(); // Initialize navigate function
+    const { id } = useParams(); // Lấy ID từ URL
+    const navigate = useNavigate(); // Dùng để chuyển trang
     const [program, setProgram] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Simulate fetching data from an API
-        const fetchProgramDetail = () => {
-            // Temporary mock data
-            setProgram(mockProgram);
+        const fetchProgramDetail = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get(`http://localhost:5169/GetProgram`);
+            
+                const programData = response.data.find((item) => item.id === parseInt(id));
+                if (programData) {
+                    setProgram(programData);
+                } else {
+                    setError("Program not found");
+                }
+            } catch (err) {
+                setError("Failed to fetch program details");
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchProgramDetail();
     }, [id]);
 
-    if (!program) {
+    if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
     }
 
     return (
@@ -38,38 +45,38 @@ const ProgramDetail = () => {
                 {/* Header Section */}
                 <div className="relative">
                     <img
-                        src={program.img}
-                        alt={program.program_name}
-                        className="w-full h-64 object-cover"
+                        src={program.img.startsWith("http") ? program.img : `http://localhost:5173/images/${program.img}`}
+                        alt={program.programName}
+                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black opacity-30" />
                     <div className="absolute inset-0 flex justify-center items-center">
-                        <h1 className="text-4xl text-white font-bold">{program.program_name}</h1>
+                        <h1 className="text-4xl text-white font-bold">{program.programName}</h1>
                     </div>
                 </div>
 
                 {/* Detail Section */}
                 <div className="px-6 py-8">
                     <p className="text-gray-600 text-sm">
-                        <strong>Created at:</strong> {new Date(program.create_time).toLocaleDateString()} <br />
-                        <strong>Updated at:</strong> {new Date(program.update_time).toLocaleDateString()}
+                        <strong>Created at:</strong> {new Date(program.createTime).toLocaleDateString()} <br />
+                        <strong>Updated at:</strong> {new Date(program.updateTime).toLocaleDateString()}
                     </p>
 
                     <div className="mt-6">
                         <h2 className="text-2xl font-semibold text-gray-900">Description</h2>
-                        <p className="mt-2 text-gray-700">{program.description}</p>
+                        <p className="mt-2 text-gray-700">{program.depcription}</p>
                     </div>
 
                     {/* NGO Section */}
                     <div className="mt-6">
                         <h2 className="text-xl font-semibold text-gray-900">NGO Info</h2>
-                        <p className="mt-2 text-gray-600">NGO ID: {program.ngo_id}</p>
+                        <p className="mt-2 text-gray-600">NGO ID: {program.ngoId}</p>
                     </div>
 
                     {/* Donate Button */}
                     <div className="mt-6">
                         <button
-                            onClick={() => navigate(`/donate/${program.id}`)} // Navigate to Donate route
+                            onClick={() => navigate(`/donate/${program.id}`)}
                             className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
                         >
                             Donate
