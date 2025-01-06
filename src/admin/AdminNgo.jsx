@@ -120,7 +120,7 @@ const AdminNgo = () => {
       title: "Actions",
       key: "actions",
       render: (_, record) => (
-        <span>
+        <span style={{ display: "flex", justifyContent: "space-between"}}>
           <Button
             type="primary"
             onClick={() => {

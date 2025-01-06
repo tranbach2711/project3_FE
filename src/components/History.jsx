@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Table, Input, notification } from "antd";
+import { Table, notification } from "antd";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const { Search } = Input;
-
-const AdminDonate = () => {
+const History = () => {
+  const { userIdParam } = useParams();  // Lấy userId từ URL
   const [donations, setDonations] = useState([]);
-  const [filteredDonations, setFilteredDonations] = useState([]);
   const [causes, setCauses] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [users, setUsers] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
 
+  useEffect(() => {
+    console.log(userIdParam); // Kiểm tra giá trị userIdParam
+    fetchData();
+  }, [userIdParam]);
   // Fetch data from APIs
   const fetchData = async () => {
     try {
@@ -23,7 +25,6 @@ const AdminDonate = () => {
       ]);
 
       setDonations(donationRes.data);
-      setFilteredDonations(donationRes.data);
       setCauses(causeRes.data);
       setPrograms(programRes.data);
       setUsers(userRes.data);
@@ -41,31 +42,12 @@ const AdminDonate = () => {
     return item ? item[key] : "Không xác định";
   };
 
-  // Handle search by username or account number
-  const handleSearch = (value) => {
-    setSearchValue(value);
-
-    // Find userIds that match the search value (case-insensitive)
-    const filteredUsers = users.filter((user) =>
-      user.userName.toLowerCase().includes(value.toLowerCase())
-    );
-
-    // Get the ids of users that match the search value
-    const filteredUserIds = filteredUsers.map((user) => user.id);
-
-    // Filter donations by matching userId or account number
-    const filtered = donations.filter(
-      (donation) =>
-        filteredUserIds.includes(donation.userId) || // Check if userId matches
-        donation.accNumber.includes(value) // Check if account number matches
-    );
-
-    setFilteredDonations(filtered);
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Lọc donations theo userId lấy từ URL
+  const filteredDonations = donations.filter(donation => donation.userId === parseInt(userIdParam));
 
   const columns = [
     {
@@ -115,13 +97,6 @@ const AdminDonate = () => {
       <h2 className="text-center text-2xl font-bold mt-10 mb-5">
         Quản lý lịch sử quyên góp
       </h2>
-      <Search
-        placeholder="Tìm kiếm theo tên người dùng hoặc số tài khoản"
-        onSearch={handleSearch}
-        onChange={(e) => handleSearch(e.target.value)}
-        value={searchValue}
-        style={{ marginBottom: 20, width: 400 }}
-      />
       <Table
         columns={columns}
         dataSource={filteredDonations.map((item) => ({
@@ -134,4 +109,4 @@ const AdminDonate = () => {
   );
 };
 
-export default AdminDonate;
+export default History;

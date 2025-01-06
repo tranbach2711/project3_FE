@@ -2,24 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-// Giả sử bạn đã có hook useSession để quản lý phiên người dùng
-
-
 const Donate = () => {
     const { programId } = useParams(); // Lấy programId từ URL
     const [donationAmount, setDonationAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('Credit Card');
-    const [causeId, setCauseId] = useState('');
+    const [causeId, setCauseId] = useState('1'); // Mặc định là 1
     const [causeList, setCauseList] = useState([]); // Danh sách cause lấy từ API
     const [accNumber, setAccNumber] = useState('');
     const [program, setProgram] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false); // Trạng thái gửi dữ liệu
+    const mockUserData = sessionStorage.getItem('userSession');
 
     useEffect(() => {
         // Lấy thông tin chương trình
         const fetchProgram = async () => {
             try {
                 const response = await axios.get(`http://localhost:5169/GetProgram`);
-                setProgram(response.data);
+                const filteredProgram = response.data.find((program) => program.id === parseInt(programId, 10));
+                if (filteredProgram) {
+                    setProgram(filteredProgram);
+                } else {
+                    console.error('Program not found for the provided ID');
+                }
             } catch (error) {
                 console.error('Error fetching program:', error);
             }
@@ -30,8 +34,10 @@ const Donate = () => {
             try {
                 const response = await axios.get('http://localhost:5169/GetCause'); // Giả sử API này trả về danh sách cause
                 setCauseList(response.data);
+
+                // Đặt causeId mặc định nếu chưa có giá trị
                 if (response.data.length > 0) {
-                    setCauseId(response.data[0].id); // Gán mặc định causeId đầu tiên
+                    setCauseId(response.data[0].id.toString());
                 }
             } catch (error) {
                 console.error('Error fetching cause list:', error);
@@ -45,10 +51,13 @@ const Donate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Ngừng cho phép gửi khi đang xử lý
+        setIsSubmitting(true);
+
         const donationData = {
             programId: parseInt(programId, 10),
             causeId: parseInt(causeId, 10),
-            userId: parseInt(userId, 10),
+            userId: JSON.parse(mockUserData).id,
             accNumber: paymentMethod === 'Bank Transfer' ? accNumber : null,
             donationAmount: parseFloat(donationAmount),
             paymentMethod,
@@ -59,12 +68,16 @@ const Donate = () => {
         };
 
         try {
-            const response = await axios.post('/api/donations', donationData);
+            console.log(donationData);
+            const response = await axios.post('http://localhost:5169/CreateDonation', donationData);
             console.log('Donation successful:', response.data);
             alert('Thank you for your donation!');
         } catch (error) {
             console.error('Error making donation:', error);
             alert('Failed to process donation. Please try again.');
+        } finally {
+            // Reset trạng thái sau khi xử lý xong
+            setIsSubmitting(false);
         }
     };
 
@@ -73,13 +86,13 @@ const Donate = () => {
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="relative">
                     <img
-                        src={program.img || 'https://via.placeholder.com/800x400.png?text=No+Image'}
-                        alt={program.program_name || 'Program'}
-                        className="w-full h-64 object-cover"
+                        src={`http://localhost:5173/images/${program.img}`}
+                        alt={program.programName || 'Program'}
+                        className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black opacity-30" />
                     <div className="absolute inset-0 flex justify-center items-center">
-                        <h1 className="text-4xl text-white font-bold">{program.program_name || 'Program Name'}</h1>
+                        <h1 className="text-4xl text-white font-bold">{program.programName || 'Program Name'}</h1>
                     </div>
                 </div>
 
@@ -116,7 +129,7 @@ const Donate = () => {
                             >
                                 {causeList.map((cause) => (
                                     <option key={cause.id} value={cause.id}>
-                                        {cause.name}
+                                        {cause.causeName}
                                     </option>
                                 ))}
                             </select>
@@ -160,8 +173,9 @@ const Donate = () => {
                             <button
                                 type="submit"
                                 className="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none"
+                                disabled={isSubmitting} // Vô hiệu hóa nút khi đang gửi
                             >
-                                Donate Now
+                                {isSubmitting ? 'Processing...' : 'Donate Now'} {/* Thay đổi nội dung nút */}
                             </button>
                         </div>
                     </form>

@@ -85,6 +85,7 @@ const AdminCause = () => {
       title: "STT",
       dataIndex: "id",
       key: "id",
+      render: (text, record, index) => index + 1,
     },
     {
       title: "Cause Name",

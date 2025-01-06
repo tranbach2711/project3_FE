@@ -19,16 +19,8 @@ import UserDetail from './components/UserDetail';
 import AdminCause from './admin/AdminCause';
 import AdminUser from './admin/AdminUser';
 import AdminDonate from './admin/AdminDonate';
+import History from './components/History';
 
-// import AdminLayout from './layouts/AdminLayout';
-// import ProductPage from './pages/ProductPage';
-// import CartPage from './pages/CartPage';
-// import AdminDashboard from './pages/admin/AdminDashboard';
-// import AdminProducts from './pages/admin/AdminProducts';
-// import AdminOrders from './pages/admin/AdminOrders';
-// import NotFoundPage from './pages/NotFoundPage';
-
-// Định nghĩa routes
 const routes = createBrowserRouter([
     {
         path: '/',
@@ -41,6 +33,7 @@ const routes = createBrowserRouter([
                 path: '/users/:id',
                 element: <UserDetail />,
             },
+            { path: 'history/:userIdParam', element: <History /> },
             //   { path: 'products', element: <ProductPage /> },
             //   { path: 'cart', element: <CartPage /> },
         ],

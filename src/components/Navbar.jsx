@@ -87,7 +87,7 @@ export default function Example() {
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
                     <Popover className="relative">
                         <PopoverButton onClick={toggleDropdown} className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                            Product
+                            Program
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                         </PopoverButton>
 
@@ -126,8 +126,8 @@ export default function Example() {
                     <a href="/About" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         About Us
                     </a>
-                    <a href="#" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
-                        Company
+                    <a  onClick={() => navigate(`/history/${JSON.parse(userSession).id}`)} className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
+                        History Donate
                     </a>
                 </PopoverGroup>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">

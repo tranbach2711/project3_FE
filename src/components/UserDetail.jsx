@@ -185,11 +185,42 @@ const UserDetail = () => {
                     </form>
                 ) : (
                     <div className="flex flex-col items-center justify-center ">
-                        <p><strong>Full Name:</strong> {user.fullName}</p>
-                        <p><strong>Username:</strong> {user.userName}</p>
-                        <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Role:</strong> {mapRole(user.role)}</p>
-                        <p><strong>Status:</strong> {mapStatus(user.status)}</p>
+                       <div className="grid grid-cols-2 gap-4">
+    <div className="flex justify-end font-semibold">
+        <p><strong>Full Name:</strong></p>
+    </div>
+    <div className="flex justify-start">
+        <p>{user.fullName}</p>
+    </div>
+
+    <div className="flex justify-end font-semibold">
+        <p><strong>Username:</strong></p>
+    </div>
+    <div className="flex justify-start">
+        <p>{user.userName}</p>
+    </div>
+
+    <div className="flex justify-end font-semibold">
+        <p><strong>Email:</strong></p>
+    </div>
+    <div className="flex justify-start">
+        <p>{user.email}</p>
+    </div>
+
+    <div className="flex justify-end font-semibold">
+        <p><strong>Role:</strong></p>
+    </div>
+    <div className="flex justify-start">
+        <p>{mapRole(user.role)}</p>
+    </div>
+
+    <div className="flex justify-end font-semibold">
+        <p><strong>Status:</strong></p>
+    </div>
+    <div className="flex justify-start">
+        <p>{mapStatus(user.status)}</p>
+    </div>
+</div>
 
                         <div className="mt-4 flex gap-4 justify-center">
                             <button
