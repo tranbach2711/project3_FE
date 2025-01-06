@@ -59,6 +59,18 @@ const ProgramDetail = () => {
     const ngo = ngos.find((ngo) => ngo.id === program.ngoId);
     const ngoName = ngo ? ngo.name : 'Unknown NGO';
 
+    // Xử lý logic khi bấm Donate
+    const handleDonate = () => {
+        const userSession = sessionStorage.getItem('userSession');
+        if (!userSession) {
+            alert('Please log in before donating.');
+            navigate('/auth'); // Điều hướng tới trang đăng nhập
+            return;
+        }
+        // Nếu đã đăng nhập, chuyển đến trang donate
+        navigate(`/donate/${program.id}`);
+    };
+
     return (
         <div className="bg-gray-50 min-h-screen p-6">
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
@@ -96,7 +108,7 @@ const ProgramDetail = () => {
                     {/* Donate Button */}
                     <div className="mt-6">
                         <button
-                            onClick={() => navigate(`/donate/${program.id}`)}
+                            onClick={handleDonate}
                             className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
                         >
                             Donate

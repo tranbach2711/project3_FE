@@ -37,7 +37,7 @@ export default function Example() {
     };
 
     const handleProgramClick = (id) => {
-        
+
         navigate(`/programs/${id}`);
         setMobileMenuOpen(false);
     };
@@ -69,8 +69,8 @@ export default function Example() {
                         <span className="sr-only">Your Company</span>
                         <img
                             alt=""
-                            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                            className="h-8 w-auto"
+                            src="http://localhost:5173/images/logo/logo.png"
+                            className="h-20 w-20 w-auto"
                         />
                     </a>
                 </div>
@@ -104,6 +104,11 @@ export default function Example() {
                                             onClick={() => handleProgramClick(item.id)}
                                         >
                                             <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                                <img
+                                                    src={`http://localhost:5173/images/${item.img}`}
+                                                    alt="Preview"
+                                                    style={{ width:50, height: 50, objectFit: "cover", marginTop: 10 }}
+                                                />
                                             </div>
                                             <div className="flex-auto">
                                                 <a className="block font-semibold text-gray-900">
@@ -126,7 +131,7 @@ export default function Example() {
                     <a href="/About" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         About Us
                     </a>
-                    <a  onClick={() => navigate(`/history/${JSON.parse(userSession).id}`)} className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
+                    <a onClick={() => navigate(`/history/${JSON.parse(userSession).id}`)} className="text-sm/6 font-semibold text-gray-900 hover:text-blue-900">
                         History Donate
                     </a>
                 </PopoverGroup>
@@ -155,7 +160,7 @@ export default function Example() {
                             <span className="sr-only">Your Company</span>
                             <img
                                 alt=""
-                                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                                src="`http://localhost:5173/images/logo/logo.png`"
                                 className="h-8 w-auto"
                             />
                         </a>
@@ -210,6 +215,6 @@ export default function Example() {
             </Dialog>
         </header>
     );
-     
+
 
 }
