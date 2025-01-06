@@ -3,12 +3,29 @@ import "../index.css";
 
 const people = [
   {
-    name: 'Leslie Alexander',
-    role: 'Co-Founder / CEO',
+    name: 'Đinh Gia Huy',
+    role: 'Head of Marketing',
     imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'http://localhost:5173/images/people/huy.jpg',
   },
-  // More people...
+  {
+    name: 'Nguễn Đức Vũ',
+    role: 'Founder',
+    imageUrl:
+      'http://localhost:5173/images/people/vu.jpg',
+  },
+  {
+    name: 'Nguyễn Đình Phong',
+    role: 'Chief Operations Officer',
+    imageUrl:
+      'http://localhost:5173/images/people/phong.jpg',
+  },
+  {
+    name: 'Trần Xuân Bách',
+    role: 'CEO',
+    imageUrl:
+      'http://localhost:5173/images/people/bach.jpg',
+  },
 ]
 
 export default function Example() {
